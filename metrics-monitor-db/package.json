@@ -1,0 +1,23 @@
+{
+  "name": "metrics-monitor-db",
+  "version": "1.0.0",
+  "description": "Simple IoT System - DB Module",
+  "private": "true",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/FredyCorts7/metrics-monitor.git"
+  },
+  "author": "Fredy Cortes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FredyCorts7/metrics-monitor/issues"
+  },
+  "homepage": "https://github.com/FredyCorts7/metrics-monitor#readme",
+  "devDependencies": {
+    "standard": "^16.0.3"
+  }
+}
