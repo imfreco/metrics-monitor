@@ -1,10 +1,10 @@
 'use strict'
 
 const Sequelize = require('sequelize')
-const setupDatabase = require('../lib/db')
+const setSequelizeInstance = require('../lib/db')
 
 module.exports = function setupAgentModel (config) {
-  const sequelize = setupDatabase(config)
+  const sequelize = setSequelizeInstance(config)
 
   return sequelize.define('agent', {
     uuid: {

@@ -3,7 +3,7 @@
 const debug = require('debug')('metricsmonitor:db:setup')
 const inquirer = require('inquirer')
 const chalk = require('chalk')
-const db = require('./')
+const setupDatabase = require('./')
 
 const prompt = inquirer.createPromptModule()
 
@@ -29,14 +29,14 @@ async function setup () {
     setup: true
   }
 
-  await db(config).catch(handleFatalError)
+  await setupDatabase(config).catch(handleFatalError)
 
   console.log('Success!')
   process.exit(0)
 }
 
 function handleFatalError (err) {
-  console.error(`${chalk.red("[fatal error]")} ${err.message}`)
+  console.error(`${chalk.red('[fatal error]')} ${err.message}`)
   console.error(err.stack)
   process.exit(1)
 }
