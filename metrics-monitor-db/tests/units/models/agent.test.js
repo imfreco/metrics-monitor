@@ -2,6 +2,7 @@
 
 const { mockAgentModel, mockMetricModel } = require('../../mocks')
 const setupDatabase = require('../../../')
+const { agentFixtures } = require('../../fixtures')
 
 jest.mock('../../../models/agent.js', () => jest.fn(() => mockAgentModel))
 jest.mock('../../../models/metric.js', () => jest.fn(() => mockMetricModel))
@@ -10,6 +11,7 @@ const config = {
   logging: () => {}
 }
 let db = null
+const single = { ...agentFixtures.single }
 
 describe('Agent Model', () => {
   beforeEach(async () => {
@@ -37,6 +39,14 @@ describe('Agent Model', () => {
 
     test('Argument for belongsTo function should be AgentModel', () => {
       expect(mockMetricModel.belongsTo).toBeCalledWith(mockAgentModel)
+    })
+  })
+
+  describe('Services Agent', () => {
+    test('findById function should be the same', async () => {
+      const agent = await db.Agent.findById(single.id)
+
+      expect(agent).toEqual(agentFixtures.byId(single.id))
     })
   })
 })
