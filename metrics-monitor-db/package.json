@@ -7,7 +7,8 @@
   "scripts": {
     "lint": "standard --fix",
     "setup": "cross-env DEBUG=metricsmonitor:* node setup.js",
-    "test": "jest"
+    "test": "cross-env DEBUG=metricsmonitor:* jest",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,11 @@
     "url": "https://github.com/FredyCorts7/metrics-monitor/issues"
   },
   "homepage": "https://github.com/FredyCorts7/metrics-monitor#readme",
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  },
   "devDependencies": {
     "cross-env": "^7.0.3",
     "jest": "^26.6.3",
