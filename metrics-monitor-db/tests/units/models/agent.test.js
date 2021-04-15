@@ -43,8 +43,20 @@ describe('Agent Model', () => {
   })
 
   describe('Services Agent', () => {
-    test('findById function should be the same', async () => {
-      const agent = await db.Agent.findById(single.id)
+    test('findById function should be called once', async () => {
+      await db.Agent.findById(single.id)
+
+      expect(mockAgentModel.findById).toBeCalledTimes(1)
+    })
+
+    test('findById function should be called with the same id', async () => {
+      await db.Agent.findById(single.id)
+
+      expect(mockAgentModel.findById).toBeCalledWith(single.id)
+    })
+
+    test('retorned value of findById function should be the same to fixture', async () => {
+      const agent = await mockAgentModel.findById(single.id)
 
       expect(agent).toEqual(agentFixtures.byId(single.id))
     })
