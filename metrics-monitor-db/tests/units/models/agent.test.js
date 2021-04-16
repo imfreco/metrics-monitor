@@ -12,6 +12,7 @@ const config = {
 }
 let db = null
 const single = { ...agentFixtures.single }
+const newSingle = { ...agentFixtures.single, id: 10, uuid: 'new-new-new' }
 
 describe('Agent Model', () => {
   beforeEach(async () => {
@@ -59,6 +60,40 @@ describe('Agent Model', () => {
       const agent = await mockAgentModel.findById(single.id)
 
       expect(agent).toEqual(agentFixtures.byId(single.id))
+    })
+
+    describe('createOrUpdate function when agent exist', () => {
+      test('findOne function should be called twice', async () => {
+        await db.Agent.createOrUpdate(single)
+
+        expect(mockAgentModel.findOne).toBeCalledTimes(2)
+      })
+
+      test('update function should be called once', async () => {
+        await db.Agent.createOrUpdate(single)
+
+        expect(mockAgentModel.update).toBeCalledTimes(1)
+      })
+    })
+
+    describe('createOrUpdate function when agent NOT exist', () => {
+      test('findOne function should be called once', async () => {
+        await db.Agent.createOrUpdate(newSingle)
+
+        expect(mockAgentModel.findOne).toBeCalledTimes(1)
+      })
+
+      test('create function should be called once', async () => {
+        await db.Agent.createOrUpdate(newSingle)
+
+        expect(mockAgentModel.create).toBeCalledTimes(1)
+      })
+
+      test('update function shouldn\'t be called', async () => {
+        await db.Agent.createOrUpdate(newSingle)
+
+        expect(mockAgentModel.update).toBeCalledTimes(0)
+      })
     })
   })
 })
