@@ -44,25 +44,27 @@ describe('Agent Model', () => {
   })
 
   describe('Services Agent', () => {
-    test('findById function should be called once', async () => {
-      await db.Agent.findById(single.id)
+    describe('findById service', () => {
+      test('findById function should be called once', async () => {
+        await db.Agent.findById(single.id)
 
-      expect(mockAgentModel.findById).toBeCalledTimes(1)
+        expect(mockAgentModel.findById).toBeCalledTimes(1)
+      })
+
+      test('findById function should be called with the same id', async () => {
+        await db.Agent.findById(single.id)
+
+        expect(mockAgentModel.findById).toBeCalledWith(single.id)
+      })
+
+      test('retorned value of findById function should be the same to fixture', async () => {
+        const agent = await mockAgentModel.findById(single.id)
+
+        expect(agent).toEqual(agentFixtures.byId(single.id))
+      })
     })
 
-    test('findById function should be called with the same id', async () => {
-      await db.Agent.findById(single.id)
-
-      expect(mockAgentModel.findById).toBeCalledWith(single.id)
-    })
-
-    test('retorned value of findById function should be the same to fixture', async () => {
-      const agent = await mockAgentModel.findById(single.id)
-
-      expect(agent).toEqual(agentFixtures.byId(single.id))
-    })
-
-    describe('createOrUpdate function when agent exist', () => {
+    describe('createOrUpdate service when agent exist', () => {
       test('findOne function should be called twice', async () => {
         await db.Agent.createOrUpdate(single)
 
@@ -76,7 +78,7 @@ describe('Agent Model', () => {
       })
     })
 
-    describe('createOrUpdate function when agent NOT exist', () => {
+    describe('createOrUpdate service when agent NOT exist', () => {
       test('findOne function should be called once', async () => {
         await db.Agent.createOrUpdate(newSingle)
 
@@ -93,6 +95,62 @@ describe('Agent Model', () => {
         await db.Agent.createOrUpdate(newSingle)
 
         expect(mockAgentModel.update).toBeCalledTimes(0)
+      })
+    })
+
+    describe('findByUuid service', () => {
+      test('findOne should be called once', async () => {
+        await db.Agent.findByUuid(single.uuid)
+
+        expect(mockAgentModel.findOne).toBeCalledTimes(1)
+      })
+
+      test('findOne should be called with filter object with uuid as arg', async () => {
+        await db.Agent.findByUuid(single.uuid)
+
+        expect(mockAgentModel.findOne).toBeCalledWith({ where: { uuid: single.uuid } })
+      })
+    })
+
+    describe('findAll service', () => {
+      test('findAll should be called once', async () => {
+        await db.Agent.findAll()
+
+        expect(mockAgentModel.findAll).toBeCalledTimes(1)
+      })
+
+      test('findAll should be called without arg', async () => {
+        await db.Agent.findAll()
+
+        expect(mockAgentModel.findAll).toBeCalledWith()
+      })
+    })
+
+    describe('findByConnected service', () => {
+      test('findAll should be called once', async () => {
+        await db.Agent.findByConnected()
+
+        expect(mockAgentModel.findAll).toBeCalledTimes(1)
+      })
+
+      test('findAll should be called with connected filter', async () => {
+        await db.Agent.findByConnected()
+
+        expect(mockAgentModel.findAll).toBeCalledWith({ where: { connected: true } })
+      })
+    })
+
+    describe('findByUsername service', () => {
+      test('findAll should be called once', async () => {
+        await db.Agent.findByUsername(single.username)
+
+        expect(mockAgentModel.findAll).toBeCalledTimes(1)
+      })
+
+      test('findAll should be called with username and connected filter', async () => {
+        await db.Agent.findByUsername(single.username)
+
+        expect(mockAgentModel.findAll).toBeCalledWith({ where: { username: single.username, connected: true } })
       })
     })
   })
